@@ -29,10 +29,21 @@
 
 ## Notebook Adlandirma Kurali
 
+### `docs/` klasoru (Colab kaynak notebooklari):
 - `X_konu.ipynb` → Ders (ogretim) notebooku (tam cozumlu, aciklamali)
 - `XS_konu.ipynb` → Ogrenci versiyonu (cozumlu referans)
 - `XS_task_konu.ipynb` → Gorev notebooku (bosluklu, TODO formatinda)
 - `IRIS_3_k_means.ipynb` → Ek ornek (Iris veri seti ile K-Means)
+
+### `week-XX-*/` klasorleri (temiz ders notebooklari):
+- `week-01-data-visualization/01-data-visualization.ipynb` → Hafta 1: `insurance.csv` ile veri gorsellestirme (line, bar, pie, scatter, histogram)
+- `week-02-data-preparation/02-data-preparation.ipynb` → Hafta 2: `auto-mpg.data` ile eksik veri, binning, outlier, sampling, encoding, normalizasyon
+- `week-03-kmeans-clustering/03-kmeans.ipynb` → Hafta 3: `mall_customers.csv` ile K-Means kumeleme, Elbow, Silhouette
+- `week-04-simple-linear-regression/04-simple-linear-regression.ipynb` → Hafta 4: `income.data.csv` ile basit dogrusal regresyon (gelir→mutluluk)
+- `week-05-multiple-linear-regression/05-multiple-linear-regression.ipynb` → Hafta 5: `heart.data.csv` ile coklu dogrusal regresyon (bisiklet+sigara→kalp hastaligi)
+
+### Kok dizindeki dosyalar:
+- `3s_task_k_means.ipynb` → K-Means task notebooku (3S_k_means.ipynb ile ayni icerik)
 
 ---
 
@@ -43,12 +54,14 @@
 - **Sutunlar:** `age`, `sex`, `bmi`, `children`, `smoker`, `region`, `charges`
 - **Kullanim:** Veri gorsellestirme (line, bar, pie, scatter, histogram, box plot)
 - **Turkcelestirme:** `age→yas`, `sex→cinsiyet`, `bmi→vki`, `children→cocukSayisi`, `smoker→sigaraDurum`, `region→bolge`, `charges→odemeMiktari`
+- **Kullanan notebooklar:** `docs/1_veri_gorsellestirme.ipynb`, `docs/1S_veri_gorsellestirme.ipynb`, `week-01-data-visualization/01-data-visualization.ipynb`
 
 ### `data/auto-mpg.data` → Hafta 2
 - **Satir:** 398, **Sutun:** 9 (boslukla ayrilmis, header yok)
 - **Sutunlar:** `mpg`, `cylinders`, `displacement`, `horsepower`, `weight`, `acceleration`, `model_year`, `origin`, `car_name`
 - **Kullanim:** Eksik veri (horsepower `?`), binning, outlier (IQR), sampling, label/dummy encoding, normalization
 - **Onemli:** `horsepower` sutununda 6 adet `?` var → `NaN` → ortalama ile doldurulur
+- **Kullanan notebooklar:** `docs/2_veri_hazirlama.ipynb`, `docs/2S_veri_hazirlama.ipynb`, `docs/2S_task_veri_hazirlama.ipynb`, `week-02-data-preparation/02-data-preparation.ipynb`
 
 ### `data/auto_mpg_extended.csv` → Hafta 2 (genisletilmis)
 - **Satir:** 2000, **Sutun:** 9 (boslukla ayrilmis, header yok)
@@ -59,6 +72,7 @@
 - **Sutunlar:** `CustomerID`, `Gender`, `Age`, `Annual Income (k$)`, `Spending Score (1-100)`
 - **Kullanim:** K-Means kumeleme, Elbow yontemi, Silhouette skoru
 - **Optimal k:** 5 kume (Elbow + Silhouette ile dogrulanmis)
+- **Kullanan notebooklar:** `docs/3_k_means.ipynb`, `docs/3S_k_means.ipynb`, `3s_task_k_means.ipynb`, `week-03-kmeans-clustering/03-kmeans.ipynb`
 
 ### `data/Salary_dataset.csv` → Hafta 4
 - **Satir:** 30, **Sutun:** 3 (index + 2 ozellik)
@@ -71,6 +85,9 @@
 - **Satir:** 500, **Sutun:** 3 (index + 2 ozellik)
 - **Sutunlar:** `income`, `happiness`
 - **Kullanim:** Basit dogrusal regresyon (gelir → mutluluk)
+- **Turkcelestirme:** `income→gelir`, `happiness→mutluluk`
+- **Sonuc:** R²=0.749, mutluluk = 0.228 + 0.708 * gelir, Pearson r=0.866
+- **Kullanan notebooklar:** `docs/4_basit_dogReg_gelir_mutluluk.ipynb`, `docs/4S_basit_dogReg_gelir_mutluluk.ipynb`, `week-04-simple-linear-regression/04-simple-linear-regression.ipynb`
 
 ### `data/heart.data.csv` → Hafta 5
 - **Satir:** 498, **Sutun:** 4 (index + 3 ozellik)
@@ -78,6 +95,7 @@
 - **Kullanim:** Coklu dogrusal regresyon (bisiklet+sigara → kalp hastaligi)
 - **Turkcelestirme:** `biking→bisikletKullanimi`, `smoking→sigaraDurum`, `heart.disease→kalpHastaligi`
 - **Sonuc:** R²=0.978, kalpHastaligi = 14.935 - 0.200*bisiklet + 0.181*sigara
+- **Kullanan notebooklar:** `docs/5_coklu_dogReg.ipynb`, `docs/5S_coklu_dogReg.ipynb`, `week-05-multiple-linear-regression/05-multiple-linear-regression.ipynb`
 
 ### `data/day.csv` → Hafta 5
 - **Satir:** 731, **Sutun:** 16
@@ -157,7 +175,8 @@ INP214/
 ├── README.md                          # Bu dosya (AI-dostu dokumantasyon)
 ├── requirements.txt                   # Python bagimliliklari
 ├── task_README.md                     # Task notebook hazirlama kilavuzu
-├── clean_notebooks.py                 # Notebook temizleme scripti
+├── cleanup_icons.sh                   # Icon/.DS_Store temizleme scripti
+├── 3s_task_k_means.ipynb              # K-Means task notebooku (kokten)
 ├── data/                              # Tum veri setleri
 │   ├── insurance.csv                  # Hafta 1 - Sigorta verisi
 │   ├── auto-mpg.data                  # Hafta 2 - Otomobil yakit verisi
@@ -186,11 +205,16 @@ INP214/
 │   ├── 5_coklu_dogReg_day.ipynb               # Hafta 5 ders (bisiklet paylasim)
 │   ├── 5S_coklu_dogReg.ipynb                  # Hafta 5 ogrenci
 │   └── 5S_task_coklu_dogReg_day.ipynb         # Hafta 5 task
-├── week-01-data-visualization/        # Hafta 1 calisma klasoru
-├── week-02-data-preparation/          # Hafta 2 calisma klasoru
-├── week-03-kmeans-clustering/         # Hafta 3 calisma klasoru
-├── week-04-simple-linear-regression/  # Hafta 4 calisma klasoru
-└── week-05-multiple-linear-regression/ # Hafta 5 calisma klasoru
+├── week-01-data-visualization/
+│   └── 01-data-visualization.ipynb    # Hafta 1: insurance.csv gorsellestirme
+├── week-02-data-preparation/
+│   └── 02-data-preparation.ipynb      # Hafta 2: auto-mpg.data veri hazirlama
+├── week-03-kmeans-clustering/
+│   └── 03-kmeans.ipynb                # Hafta 3: mall_customers K-Means kumeleme
+├── week-04-simple-linear-regression/
+│   └── 04-simple-linear-regression.ipynb  # Hafta 4: income→mutluluk regresyon
+└── week-05-multiple-linear-regression/
+    └── 05-multiple-linear-regression.ipynb # Hafta 5: bisiklet+sigara→kalp regresyon
 ```
 
 ---
@@ -218,6 +242,36 @@ jupyter notebook
 
 ---
 
+## docs/ vs week-XX/ Farki
+
+| Ozellik | `docs/` klasoru | `week-XX-*/` klasoru |
+|---------|-----------------|---------------------|
+| Icerik | Colab kaynak dosyalari (ders + ogrenci + task) | Temiz, tekil ders notebooku |
+| GitHub Token | Evet (buton olarak) | Evet (buton olarak) |
+| Drive Mount | Evet | Evet |
+| Cikti Hucresi | Bazi notebooklarda mevcut | Bazi notebooklarda mevcut |
+| Veri Seti Referansi | `docs/` icindekiler ayni veri setlerini kullanir | Ayni veri setlerini kullanir |
+| Iliskisi | Hafta 4 ders notebook → `4_basit_dogReg_gelir_mutluluk.ipynb` | `04-simple-linear-regression.ipynb` (ayni icerik) |
+
+**Onemli:** `week-XX-*/` klasorlerindeki notebooklar, `docs/` klasorundeki ders notebooklarinin "temiz" kopyalaridir. Icerik olarak eslesirler:
+- `week-01` ↔ `docs/1_veri_gorsellestirme.ipynb`
+- `week-02` ↔ `docs/2_veri_hazirlama.ipynb`
+- `week-03` ↔ `docs/3_k_means.ipynb`
+- `week-04` ↔ `docs/4_basit_dogReg_gelir_mutluluk.ipynb` (income→happiness)
+- `week-05` ↔ `docs/5_coklu_dogReg.ipynb` (heart.data)
+
+---
+
+## IRIS Ek Calismasi
+
+`docs/IRIS_3_k_means.ipynb` notebooku, Hafta 3 K-Means konusunun ek uygulamasidir:
+- **Veri seti:** sklearn icindeki dahili `iris` veri seti (150 gozlem, 4 ozellik, 3 tur)
+- **Sutunlar:** `canakU` (sepal length), `canakG` (sepal width), `tacU` (petal length), `tacG` (petal width), `tur` (setosa/versicolor/virginica)
+- **Optimal k:** 3 (Elbow + Silhouette)
+- **Fark:** Mall Customers'tan farkli olarak sklearn dahili veri seti kullanilir, harici CSV okunmaz
+
+---
+
 ## AI Asistan Icin Hizli Referans
 
 **Bu repoyu anlaman gereken temel bilgiler:**
@@ -226,8 +280,9 @@ jupyter notebook
 2. Her hafta farkli bir ML konusu isler (gorsellestirme → veri hazirlama → kumeleme → basit regresyon → coklu regresyon)
 3. Veri setleri `data/` klasorundedir, her biri belirli haftalara aittir (yukaridaki haritaya bak)
 4. `docs/` klasorundeki X_ prefiksi ders notebookunu, XS_ ogrenci versiyonunu, XS_task_ gorev versiyonunu gosterir
-5. Notebooklar Colab icin yazilmistir (Drive mount, pip install satirlari mevcut)
-6. Temel kutuphaneler: pandas, numpy, matplotlib, seaborn, scikit-learn, statsmodels, yellowbrick, scipy
-7. Her notebook icinde Turkce markdown aciklamalar, kod yorumlari ve istatistik tablolari vardir
-8. `week-XX-*` klasorleri ogrenci calisma alanlaridir
+5. `week-XX-*/` klasorleri `docs/` ders notebooklarinin temiz kopyalaridir (ayni icerik, farkli dosya adi)
+6. Notebooklar Colab icin yazilmistir (Drive mount, pip install satirlari mevcut)
+7. Temel kutuphaneler: pandas, numpy, matplotlib, seaborn, scikit-learn, statsmodels, yellowbrick, scipy
+8. Her notebook icinde Turkce markdown aciklamalar, kod yorumlari ve istatistik tablolari vardir
 9. `task_README.md` dosyasi task notebook hazirlama kilavuzudur
+10. Her ders notebooku 5 adimlik sureyi takip eder: kutuphane yukle → veri oku/temizle → EDA/gorsellestir → model kur → performans degerlendir
