@@ -44,6 +44,12 @@ try:
 except ImportError:
     HAS_PIL = False
 
+try:
+    import pytesseract
+    HAS_OCR = True
+except ImportError:
+    HAS_OCR = False
+
 
 # ─────────────────────────────────────────────
 # Ana İşlem Fonksiyonu
@@ -192,6 +198,19 @@ def _process_slide(slide, slide_num, slide_dir, report):
                 f"Slayt {slide_num}, Şekil {shape_idx} ({shape.name}): {type(e).__name__} - {e}"
             )
 
+    # Eğer metin bulunamadı ama görsel varsa → OCR ile metin çıkar
+    if slide_info["metin_sayisi"] == 0 and slide_info["gorsel_sayisi"] > 0:
+        if HAS_PIL and HAS_OCR:
+            for img_file in slide_info["gorsel_dosyalari"]:
+                img_path = slide_dir / img_file
+                ocr_text = _ocr_extract_text(img_path)
+                if ocr_text.strip():
+                    print(f"   🔍 OCR metin çıkarıldı: {img_file}")
+                    slide_info["metin_bloklari"].append(ocr_text)
+                    slide_info["metin_sayisi"] += 1
+                    # OCR metni text_parts'ın başına ekle (görselden önce)
+                    text_parts.insert(0, ocr_text)
+
     # Slayt içeriğini markdown dosyasına yaz
     content_path = slide_dir / "content.md"
     with open(content_path, "w", encoding="utf-8") as f:
@@ -274,6 +293,80 @@ def _extract_table(shape):
         if row_idx == 0:
             rows.append("| " + " | ".join(["---"] * len(row.cells)) + " |")
     return "\n".join(rows)
+
+
+# ─────────────────────────────────────────────
+# OCR Metin Çıkarma (Görsel tabanlı slaytlar)
+# ─────────────────────────────────────────────
+
+def _ocr_extract_text(image_path):
+    """Görselden OCR ile metin çıkarır ve Markdown formatında döndürür."""
+    try:
+        img = Image.open(image_path)
+    except Exception:
+        return ""
+
+    # Tesseract dil seçimi: Türkçe varsa kullan, yoksa İngilizce
+    try:
+        langs = pytesseract.get_languages()
+        lang = "tur+eng" if "tur" in langs else "eng"
+    except Exception:
+        lang = "eng"
+
+    # Detaylı OCR: her metin bloğunun konumu ve yüksekliği
+    try:
+        data = pytesseract.image_to_data(img, lang=lang, output_type=pytesseract.Output.DICT)
+    except Exception:
+        return ""
+
+    img_width, img_height = img.size
+
+    # Satırları grupla (block_num + par_num + line_num)
+    lines = {}
+    for i in range(len(data["text"])):
+        text = data["text"][i].strip()
+        if not text:
+            continue
+        conf = int(data["conf"][i])
+        if conf < 20:
+            continue
+        key = (data["block_num"][i], data["par_num"][i], data["line_num"][i])
+        if key not in lines:
+            lines[key] = {
+                "text": [],
+                "top": data["top"][i],
+                "height": data["height"][i],
+                "left": data["left"][i],
+            }
+        lines[key]["text"].append(text)
+        lines[key]["height"] = max(lines[key]["height"], data["height"][i])
+
+    if not lines:
+        return ""
+
+    # Satırları dikey konuma göre sırala
+    sorted_lines = sorted(lines.values(), key=lambda x: x["top"])
+
+    # Ortalama satır yüksekliğini hesapla (başlık tespiti için)
+    heights = [ln["height"] for ln in sorted_lines]
+    avg_height = sum(heights) / len(heights) if heights else 0
+
+    # Markdown oluştur
+    md_parts = []
+    for ln in sorted_lines:
+        line_text = " ".join(ln["text"])
+        h = ln["height"]
+        top_ratio = ln["top"] / img_height if img_height else 1
+
+        # Başlık tespiti: yükseklik ortalamanın 1.6 katından büyükse
+        if h > avg_height * 1.6 and top_ratio < 0.3:
+            md_parts.append(f"## {line_text}")
+        elif h > avg_height * 1.3 and top_ratio < 0.4:
+            md_parts.append(f"### {line_text}")
+        else:
+            md_parts.append(line_text)
+
+    return "\n".join(md_parts)
 
 
 # ─────────────────────────────────────────────
