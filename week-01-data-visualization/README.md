@@ -55,7 +55,7 @@ Her üç notebook da aşağıdaki bölüm sırasını takip eder:
    - 1.2.1 Veri Setini Okuma (`pd.read_csv()`)
    - 1.2.2 Sütun İsimlerini Türkçeleştirme (`.rename()`)
    - 1.2.3 Kategorik Sütunları `category` Tipine Dönüştürme (`.astype("category")`)
-   - 1.2.4 Kategorik Değerleri Güncelleme (`.replace()`)
+   - 1.2.4 Kategorik Değerleri Güncelleme (`.cat.rename_categories()`)
 3. **1.3 Özet İstatistikler** — `.describe()`, `.describe(include="all")`
 4. **1.4 Veri Görselleştirme**
    - 1.4.1 Çizgi Grafik (`plt.plot()`) — 4 örnek
@@ -111,3 +111,52 @@ Yeni bir hafta/konu için benzer yapıda materyaller oluşturmak istiyorsanız:
 1. **Ders notebooku** (`X_konu.ipynb`): Orijinal veri seti ile tüm kodlar ve açıklamalar.
 2. **Cevap notebooku** (`XA_konu.ipynb`): Yeni/farklı bir veri seti ile aynı yapı, tüm kodlar uyarlanmış.
 3. **Ödev notebooku** (`XQ_konu.ipynb`): Cevap notebookundan türetilir — kod hücreleri boşaltılır, `# GÖREV:` ve `# İpucu:` yorum satırları eklenir, kütüphane import hücresi korunur.
+
+---
+
+## Ders Kitabı Referansı: Makine Öğrenmesi — Bölüm 3: Python ile Veri Görselleştirme
+
+> **Kaynak:** `docs/makine_ogrenmesi.md` (Doç. Dr. Elif Kartal, Prof. Dr. Mehmet Erdal Balaban — İstanbul Üniversitesi)
+
+Bu hafta, ders kitabının **Bölüm 3: Python ile Veri Görselleştirme** konusunu kapsamaktadır.
+
+### Bölüm Kazanımları
+
+1. Veri görselleştirmenin önemini anlar, farklı görselleştirme tekniklerinin projelerde nasıl kullanılabileceğini bilir.
+2. **Çizgi grafiği** (line chart) kullanım alanlarını anlar, Python ile çizgi grafiği çizebilir.
+3. **Sütun grafiği** (bar chart) kullanarak kategorik verileri görselleştirebilir.
+4. **Pasta grafiği** (pie chart) ile oranları ve yüzdeleri temsil edebilir.
+5. **Serpilme/saçılım diyagramı** (scatter plot) ile iki değişken arasındaki ilişkiyi görselleştirebilir, aykırı değerleri tespit edebilir.
+6. **Histogram** ile veri setindeki frekans dağılımını gösterebilir.
+7. **Kutu grafiği** (box plot) ile bir niteliği görsel olarak ifade edebilir, aykırı değerleri tespit edebilir.
+8. **Violin grafiği** ile bir niteliğin dağılımını ve yoğunluğunu görselleştirebilir.
+9. **Isı haritası** (heatmap) ile matris şeklindeki veriyi görselleştirebilir, nitelikler arasındaki ilişkileri analiz edebilir.
+
+### Bölüm Alt Başlıkları
+
+- **3.1** Veri Görselleştirmeye Genel Bakış
+- **3.2** Çizgi Grafiği (Line Chart)
+- **3.3** Sütun Grafiği (Bar Chart)
+- **3.4** Pasta Grafiği (Pie Chart)
+- **3.5** Serpilme Diyagramı (Scatter Plot)
+- **3.6** Histogram
+- **3.7** Kutu Grafiği (Box Plot)
+- **3.8** Violin Grafiği
+- **3.9** Isı Haritası (Heatmap)
+
+### Kullanılan Kütüphaneler (Ders Kitabı)
+
+- **Matplotlib** (`matplotlib.pyplot`): Temel grafik çizimi
+- **Seaborn** (`seaborn`): İleri düzey istatistiksel görselleştirme
+- **NumPy** (`numpy`): Sayısal hesaplamalar
+- **Pandas** (`pandas`): Veri manipülasyonu ve analizi
+
+### Bu Hafta ile Ders Kitabı İlişkisi
+
+| Ders Kitabı (Bölüm 3) | Notebook Karşılığı |
+|------------------------|---------------------|
+| Çizgi Grafiği (3.2) | Bölüm 1.4.1 — `plt.plot()` |
+| Sütun Grafiği (3.3) | Bölüm 1.4.2 — `plt.bar()`, `plt.barh()` |
+| Pasta Grafiği (3.4) | Bölüm 1.4.3 — `plt.pie()` |
+| Serpilme Diyagramı (3.5) | Bölüm 1.4.4 — `plt.scatter()`, `sns.scatterplot()` |
+| Histogram (3.6) | Bölüm 1.4.5 — `sns.histplot()` |

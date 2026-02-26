@@ -1,29 +1,58 @@
 #!/usr/bin/env python3
 """
-Python Programlama PDF -> Markdown Dönüştürücü (Temiz ve Eksiksiz)
+Makine Öğrenmesi PDF -> Markdown Dönüştürücü (Temiz ve Eksiksiz)
 
-/tmp/pdf_extracted.txt dosyasını temizleyerek
-/Users/zuber/INP104/docs/python_programlama.md oluşturur.
+Adım 1: makine_ogrenmesi.pdf dosyasından PyPDF2 ile metin çıkarır.
+Adım 2: Çıkarılan metni temizler ve markdown formatına dönüştürür.
+Adım 3: /Users/zuber/INP214/docs/makine_ogrenmesi.md dosyasını oluşturur.
 
 Temizlik işlemleri:
 - "=== SAYFA X ===" satırları kaldırılır
-- "5.01.2024 13:31" header satırları kaldırılır
-- "Ders : PYTHON PROGRAMLAMA - eKtap" satırları kaldırılır
-- "about:blank X/170" prefix'leri kaldırılır (sonrasındaki içerik korunur)
+- "6.05.2024 13:55" header satırları kaldırılır
+- "Ders : MAKİNE ÖĞRENMESİ - eKtap" satırları kaldırılır
+- "about:blank X/277" prefix'leri kaldırılır (sonrasındaki içerik korunur)
 - Bölüm başlıkları markdown heading'e dönüştürülür
 - Ardışık boş satırlar azaltılır
 
 Kullanım:
-    python python_programlama_extractor.py
+    python makine_ogrenmesi_extractor.py
 """
 
 import re
 import os
 
+try:
+    import PyPDF2
+except ImportError:
+    print("HATA: PyPDF2 kütüphanesi gerekli. Yüklemek için: pip install PyPDF2")
+    exit(1)
 
-EXTRACTED_TEXT = "/tmp/pdf_extracted.txt"
-BASE_DIR = "/Users/zuber/INP104"
-OUTPUT_MD = os.path.join(BASE_DIR, "docs", "python_programlama.md")
+
+BASE_DIR = "/Users/zuber/INP214"
+PDF_PATH = os.path.join(BASE_DIR, "docs", "makine_ogrenmesi.pdf")
+EXTRACTED_TEXT = "/tmp/makine_ogrenmesi_extracted.txt"
+OUTPUT_MD = os.path.join(BASE_DIR, "docs", "makine_ogrenmesi.md")
+
+
+def extract_pdf_to_text(pdf_path, output_path):
+    """PDF dosyasından metin çıkar ve geçici dosyaya yaz"""
+    reader = PyPDF2.PdfReader(pdf_path)
+    total_pages = len(reader.pages)
+    print(f"  -> {total_pages} sayfa bulundu")
+
+    with open(output_path, "w", encoding="utf-8") as f:
+        for i, page in enumerate(reader.pages):
+            text = page.extract_text()
+            f.write(f"=== SAYFA {i + 1} ===\n")
+            if text:
+                # Null byte'ları temizle (PDF extraction artifact)
+                text = text.replace("\x00", "")
+                f.write(text + "\n")
+            f.write("\n")
+
+    size = os.path.getsize(output_path)
+    print(f"  -> {size:,} bayt metin çıkarıldı -> {output_path}")
+    return total_pages
 
 
 def clean_extracted_text(raw_lines):
@@ -41,34 +70,47 @@ def clean_extracted_text(raw_lines):
             cleaned.append("")
             continue
 
-        # "5.01.2024 13:31" ile başlayan header satırlarını atla
-        if "5.01.2024 13:31" in line:
+        # "6.05.2024 13:55" ile başlayan/içeren header satırlarını atla
+        if "6.05.2024 13:55" in line:
             continue
 
-        # "Ders : PYTHON PROGRAMLAMA" satırlarını atla
-        if "Ders : PYTHON PROGRAMLAMA" in line:
+        # "Ders : MAKİNE ÖĞRENMESİ" satırlarını atla
+        if "Ders : MAKİNE ÖĞRENME" in line:
             continue
 
-        # about:blank X/170 prefix'ini kaldır, sonrasındaki içeriği koru
-        # NOT: /170 sabit, greedy \d+ "1702" gibi section numarasını yutmasın
-        m = re.match(r"^about:blank\s+\d+/170(.*)", line.strip())
-        if m:
-            remainder = m.group(1).strip()
-            if remainder:
-                # İçindekiler sayfası başlangıcı
-                if remainder == "İÇİNDEKİLER":
-                    in_toc = True
-                    continue
-                # about:blank sonrası gelen bölüm başlıkları: §HEADING§ ile işaretle
-                # Sadece 1-8 arası ana bölüm numaraları (tek haneli + büyük harfle başlayan)
-                if re.match(r"^[1-8]\.\s+[A-ZÜĞŞÇÖİ]", remainder):
-                    cleaned.append(f"§HEADING§{remainder}")
-                else:
-                    cleaned.append(remainder)
+        # about:blank X/277 satırlarını tamamen atla
+        if re.match(r"^about:blank\s+\d+/277", line.strip()):
             continue
 
-        # İçindekiler sayfasındaki bölüm listesini atla (başlığa çevirme)
+        # İçindekiler sayfasını atla
+        if line.strip() == "İÇİNDEKİLER":
+            in_toc = True
+            continue
+
         if in_toc:
+            continue
+
+        # Ana bölüm başlıklarını tespit et (standalone satırlarda)
+        # Tam eşleşme: sadece kitabın 10 bölüm başlığı
+        chapter_patterns = [
+            r"^1\.\s+Yapay Zekâ,?\s*Mak",
+            r"^2\.\s+Mak\w*\s+Öğr\s*enmes\s*Sür",
+            r"^3\.\s+Python\s+le\s+Ver\s+Görselleşt",
+            r"^4\.\s+Python\s+le\s+Ver\s+Ön",
+            r"^5\.\s+K-ortalamalar",
+            r"^6\.\s+Bast\s+ve\s+Çoklu",
+            r"^7\.\s+K-en\s+Yakın",
+            r"^8\.\s+Naıve\s+Bayes",
+            r"^9\.\s+Karar\s+Ağaçları",
+            r"^10\.\s+Yapay\s+S\w*r\s+Ağları",
+        ]
+        is_chapter = False
+        for cp in chapter_patterns:
+            if re.match(cp, line.strip()):
+                is_chapter = True
+                break
+        if is_chapter:
+            cleaned.append(f"§HEADING§{line.strip()}")
             continue
 
         cleaned.append(line)
@@ -80,24 +122,23 @@ def format_section_headings(lines):
     """Bölüm başlıklarını markdown heading formatına dönüştür"""
     result = []
 
-    # §HEADING§ ile işaretlenmiş ana bölüm başlıklarını dönüştür
+    # Makine Öğrenmesi kitabına özgü başlık düzeltmeleri
     heading_fixes = {
-        "PROGRAMLAMA YA GİRİŞ": "PROGRAMLAMAYA GİRİŞ",
-        "KOŞUL  İFADELERİ": "KOŞUL İFADELERİ",
-        "NUMPY  VE P ANDAS": "NUMPY VE PANDAS",
-        "KÜTÜPHANELERİ İLE": "KÜTÜPHANELERİ İLE ÇALIŞMA",
-        "DEMET , KÜME,": "DEMET, KÜME, SÖZLÜK",
+        "Makne Öğr enmes": "Makine Öğrenmesi",
+        "İlşkl Temel Kavramla": "İlişkili Temel Kavramlar",
+        "Makne Öğr enmes Sür ec": "Makine Öğrenmesi Süreci",
+        "Python le Ver Görselleştrme": "Python ile Veri Görselleştirme",
+        "Python le Ver Ön-şleme": "Python ile Veri Ön-İşleme",
+        "K-ortalamalar  Algortması": "K-Ortalamalar Algoritması",
+        "Bast ve Çoklu Doğrusal Regr esyon Analz": "Basit ve Çoklu Doğrusal Regresyon Analizi",
+        "K-en Yakın Komşu Algortması": "K-En Yakın Komşu Algoritması",
+        "Naıve Bayes Algortması": "Naive Bayes Algoritması",
+        "Karar  Ağaçları": "Karar Ağaçları",
+        "Yapay Snr  Ağları": "Yapay Sinir Ağları",
     }
-
-    skip_next_sozluk = False
 
     for i, line in enumerate(lines):
         stripped = line.strip()
-
-        # "SÖZLÜK" tek satırda gelebilir (3. bölüm başlığının devamı)
-        if skip_next_sozluk and stripped == "SÖZLÜK":
-            skip_next_sozluk = False
-            continue
 
         # §HEADING§ ile işaretlenmiş ana bölüm başlıkları
         if stripped.startswith("§HEADING§"):
@@ -108,11 +149,9 @@ def format_section_headings(lines):
             result.append("")
             result.append(f"# {heading_text}")
             result.append("")
-            if "KÜME," in heading_text and "SÖZLÜK" not in heading_text:
-                skip_next_sozluk = True
             continue
 
-        # Alt bölüm başlıkları: X.Y. veya X.Y.Z.
+        # Alt bölüm başlıkları: X.Y.Z.
         sub_sub_match = re.match(r"^(\d+\.\d+\.\d+\.)\s+(.*)", stripped)
         if sub_sub_match and len(stripped) < 120:
             num = sub_sub_match.group(1).rstrip(".")
@@ -123,6 +162,7 @@ def format_section_headings(lines):
                 result.append("")
                 continue
 
+        # Alt bölüm başlıkları: X.Y.
         sub_match = re.match(r"^(\d+\.\d+\.)\s+(.*)", stripped)
         if sub_match and len(stripped) < 120:
             num = sub_match.group(1).rstrip(".")
@@ -133,13 +173,12 @@ def format_section_headings(lines):
                 result.append("")
                 continue
 
-        # Önemli alt başlıklar
+        # Önemli alt başlıklar (bold yapılacak)
         bold_headings = [
             "Kazanımlar", "Brlkte Düşünelm", "Birlikte Düşünelim",
             "Başlamadan Önce", "Bölüm Özet", "Bölüm Özeti",
             "Kaynakça", "Ünte Soruları", "Ünite Soruları",
-            "Değşken Tanımlama Kuralları", "Değişken Tanımlama Kuralları",
-            "Intern Nesneler", "İntern Nesneler",
+            "Özlü Söz",
             "Bölümle İlgl Özlü Söz", "Bölümle İlgili Özlü Söz",
         ]
         if stripped in bold_headings:
@@ -170,23 +209,25 @@ def reduce_blank_lines(lines):
 
 def build_markdown(lines):
     """Son markdown metnini oluştur"""
-    header = """# PYTHON PROGRAMLAMA - eKitap
+    header = """# MAKİNE ÖĞRENMESİ - eKitap
 
-**Züber Doğan**
-Yeditepe Üniversitesi - Meslek Yüksekokulu
+**Doç. Dr. Elif Kartal, Prof. Dr. Mehmet Erdal Balaban**
+İstanbul Üniversitesi - Açık ve Uzaktan Eğitim Fakültesi
 
 ---
 
 ## İÇİNDEKİLER
 
-1. Python ile Programlamaya Giriş
-2. Değişkenler ve Veri Tipleri
-3. Veri Yapıları: Liste, Demet, Küme, Sözlük
-4. Koşul İfadeleri
-5. Döngüler
-6. Fonksiyonlar
-7. Nesneye Yönelik Programlama
-8. NumPy ve Pandas Kütüphaneleri ile Çalışma
+1. Yapay Zekâ, Makine Öğrenmesi ve İlişkili Temel Kavramlar
+2. Makine Öğrenmesi Süreci
+3. Python ile Veri Görselleştirme
+4. Python ile Veri Ön-İşleme
+5. K-Ortalamalar Algoritması
+6. Basit ve Çoklu Doğrusal Regresyon Analizi
+7. K-En Yakın Komşu Algoritması
+8. Naive Bayes Algoritması
+9. Karar Ağaçları
+10. Yapay Sinir Ağları
 
 ---
 
@@ -197,34 +238,37 @@ Yeditepe Üniversitesi - Meslek Yüksekokulu
 
 def main():
     print("=" * 60)
-    print("PYTHON PROGRAMLAMA PDF -> MD (Temiz ve Eksiksiz)")
+    print("MAKİNE ÖĞRENMESİ PDF -> MD (Temiz ve Eksiksiz)")
     print("=" * 60)
 
-    if not os.path.exists(EXTRACTED_TEXT):
-        print(f"HATA: {EXTRACTED_TEXT} bulunamadı!")
+    # 1. PDF'den metin çıkar
+    if not os.path.exists(PDF_PATH):
+        print(f"HATA: {PDF_PATH} bulunamadı!")
         return
 
-    # 1. Ham metni oku
-    print(f"\n[1/5] Okunuyor: {EXTRACTED_TEXT}")
+    print(f"\n[1/5] PDF'den metin çıkarılıyor: {PDF_PATH}")
+    extract_pdf_to_text(PDF_PATH, EXTRACTED_TEXT)
+
+    # 2. Ham metni oku
+    print(f"[2/5] Okunuyor: {EXTRACTED_TEXT}")
     with open(EXTRACTED_TEXT, "r", encoding="utf-8") as f:
         raw_lines = f.readlines()
     print(f"  -> {len(raw_lines)} satır okundu")
 
-    # 2. Temizle
-    print("[2/5] Sayfa başlıkları ve gereksiz satırlar temizleniyor...")
+    # 3. Temizle
+    print("[3/5] Sayfa başlıkları ve gereksiz satırlar temizleniyor...")
     cleaned = clean_extracted_text(raw_lines)
     print(f"  -> {len(cleaned)} satır kaldı")
 
-    # 3. Bölüm başlıklarını formatla
-    print("[3/5] Bölüm başlıkları markdown formatına dönüştürülüyor...")
+    # 4. Bölüm başlıklarını formatla
+    print("[4/5] Bölüm başlıkları markdown formatına dönüştürülüyor...")
     formatted = format_section_headings(cleaned)
 
-    # 4. Boş satırları azalt
-    print("[4/5] Ardışık boş satırlar azaltılıyor...")
+    # 5. Boş satırları azalt
     reduced = reduce_blank_lines(formatted)
     print(f"  -> {len(reduced)} satır (son)")
 
-    # 5. Markdown oluştur ve yaz
+    # 6. Markdown oluştur ve yaz
     print(f"[5/5] Yazılıyor: {OUTPUT_MD}")
     md_text = build_markdown(reduced)
 
@@ -245,7 +289,7 @@ def main():
     # Doğrulama: Bölüm başlıklarını kontrol et
     print("\nBölüm başlıkları kontrolü:")
     for line in reduced:
-        if line.startswith("# ") and not line.startswith("# PYTHON"):
+        if line.startswith("# ") and not line.startswith("# MAKİNE"):
             print(f"  {line}")
 
 
