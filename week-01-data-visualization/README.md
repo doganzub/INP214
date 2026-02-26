@@ -116,7 +116,7 @@ Yeni bir hafta/konu için benzer yapıda materyaller oluşturmak istiyorsanız:
 
 ## Ders Kitabı Referansı: Makine Öğrenmesi — Bölüm 3: Python ile Veri Görselleştirme
 
-> **Kaynak:** `docs/makine_ogrenmesi.md` (Doç. Dr. Elif Kartal, Prof. Dr. Mehmet Erdal Balaban — İstanbul Üniversitesi)
+> **Kaynak:** `docs/makine_ogrenmesi.md` (Züber Doğan — Yeditepe Üniversitesi Meslek Yüksek Okulu)
 
 Bu hafta, ders kitabının **Bölüm 3: Python ile Veri Görselleştirme** konusunu kapsamaktadır.
 
@@ -146,10 +146,26 @@ Bu hafta, ders kitabının **Bölüm 3: Python ile Veri Görselleştirme** konus
 
 ### Kullanılan Kütüphaneler (Ders Kitabı)
 
-- **Matplotlib** (`matplotlib.pyplot`): Temel grafik çizimi
-- **Seaborn** (`seaborn`): İleri düzey istatistiksel görselleştirme
-- **NumPy** (`numpy`): Sayısal hesaplamalar
-- **Pandas** (`pandas`): Veri manipülasyonu ve analizi
+**Kurulum:**
+```bash
+pip install numpy
+pip install pandas
+pip install matplotlib
+pip install seaborn
+```
+
+**Import Yöntemi:**
+```python
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+```
+
+- **Matplotlib** (`matplotlib.pyplot`): Temel grafik çizimi (`plot()`, `bar()`, `pie()`, `scatter()` vb.)
+- **Seaborn** (`seaborn`): İleri düzey istatistiksel görselleştirme (`histplot()`, `boxplot()`, `violinplot()`, `heatmap()` vb.)
+- **NumPy** (`numpy`): Sayısal hesaplamalar ve array işlemleri
+- **Pandas** (`pandas`): Veri manipülasyonu, DataFrame yönetimi ve analizi
 
 ### Bu Hafta ile Ders Kitabı İlişkisi
 
@@ -160,3 +176,51 @@ Bu hafta, ders kitabının **Bölüm 3: Python ile Veri Görselleştirme** konus
 | Pasta Grafiği (3.4) | Bölüm 1.4.3 — `plt.pie()` |
 | Serpilme Diyagramı (3.5) | Bölüm 1.4.4 — `plt.scatter()`, `sns.scatterplot()` |
 | Histogram (3.6) | Bölüm 1.4.5 — `sns.histplot()` |
+
+### Neden Veri Görselleştirme?
+
+> "Tek bir resim binlerce sözcüğe bedeldir." — Anonim
+
+Veri görselleştirme (data visualization), veriyi anlama ve raporlamada önemli bir araçtır. Makine öğrenmesi sürecinde de önemli bir rol oynar:
+
+1. **Analiz Öncesi:** Veriyi anlamak, desenler keşfetmek
+2. **Analiz Sırasında:** Sonuçları yorumlamak, aykırı değerleri tespit etmek
+3. **Analiz Sonrası:** Karar vericiler için rapor hazırlamak
+
+Bu haftanın notebooklarında temel ve ili ileri düzey görselleştirme yöntemleri işlenir:
+- Çizgi grafiği, sütün grafiği, pasta grafiği (temel)
+- Serpilme diyagramı, histogram (analitik)
+- Kutu grafiği, violin grafiği, ısı haritası (ileri)
+
+Grafiklerin temel kullanımının yanı sıra:
+- Nitelikler arasındaki ilişkilerin görselleştirilmesi
+- Aykırı değer tespiti
+- Niteliğin dağılımının grafikler üzerinden keşfedilmesi
+
+### Hangi Grafik Türü Ne Zaman Kullanılır?
+
+| Grafik Türü | Kullanım Alanı | Veri Tipi | Örnek |
+|---------------|---------------|-----------|--------|
+| **Çizgi Grafiği** | Zaman serisi, sıralı veri trendi | Sürekli sayısal | Müşteri yaşlarının sıralı görüntüsü |
+| **Sütün Grafiği** | Kategorik karşılaştırma | Kategorik + sayısal | Sigara içenlerin ortalama bahşişi |
+| **Pasta Grafiği** | Oran/yüzde dağılımı | Kategorik | Günlere göre toplam bahşiş dağılımı |
+| **Serpilme Diyagramı** | İki değişken ilişkisi, korelasyon | İki sürekli sayısal | Toplam hesap vs. bahşiş ilişkisi |
+| **Histogram** | Frekans dağılımı, yoğunluk | Sürekli sayısal | Bahşiş miktarı dağılımı (8 veya 12 bin) |
+| **Kutu Grafiği** | Çeyrekler, aykırı değerler | Sürekli sayısal | Yaş dağılımı, medyan, Q1, Q3 |
+| **Violin Grafiği** | Yoğunluk + dağılım | Sürekli sayısal | Bahşiş dağılımının detaylı görünümü |
+| **Isı Haritası** | Çoklu değişken ilişkisi | Matris/korelasyon | Nitelikler arası korelasyon matrisi |
+
+### Ders Kitabı Veri Seti: insurance.csv
+
+Ders kitabının Bölüm 3'ünde **insurance.csv** (sağlık sigortası müşteri verisi) kullanılmıştır:
+- **Kaynak:** Kaggle - Health Insurance Data
+- **Örnek Sayısı:** 1,338 müşteri
+- **Nitelik Sayısı:** 7 sütun
+- **Nitelikler:** `age` (yaş), `sex` (cinsiyet), `bmi` (vücut kitle indeksi), `children` (çocuk sayısı), `smoker` (sigara durumu), `region` (bölge), `charges` (ödeme miktarı)
+
+Bu haftanın ödev notebooklarında ise **tips.csv** (restoran bahşiş verisi) kullanılmaktadır:
+- **Örnek Sayısı:** 244 müşteri
+- **Nitelik Sayısı:** 7 sütun
+- **Nitelikler:** `total_bill`, `tip`, `sex`, `smoker`, `day`, `time`, `size`
+
+Her iki veri seti de benzer yapıdadır ve aynı görselleştirme tekniklerini uygulamak için uygundur.

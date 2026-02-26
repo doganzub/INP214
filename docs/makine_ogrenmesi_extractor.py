@@ -211,8 +211,8 @@ def build_markdown(lines):
     """Son markdown metnini oluştur"""
     header = """# MAKİNE ÖĞRENMESİ - eKitap
 
-**Doç. Dr. Elif Kartal, Prof. Dr. Mehmet Erdal Balaban**
-İstanbul Üniversitesi - Açık ve Uzaktan Eğitim Fakültesi
+**Züber Doğan**
+Yeditepe Üniversitesi Meslek Yüksek Okulu
 
 ---
 

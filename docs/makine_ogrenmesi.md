@@ -1,7 +1,7 @@
 # MAKİNE ÖĞRENMESİ - eKitap
 
-**Doç. Dr. Elif Kartal, Prof. Dr. Mehmet Erdal Balaban**
-İstanbul Üniversitesi - Açık ve Uzaktan Eğitim Fakültesi
+**Züber Doğan**
+Yeditepe Üniversitesi Meslek Yüksek Okulu
 
 ---
 
@@ -26,8 +26,7 @@ Açık v e Uz aktan Eğim F akült esi
 
 
 MAKİNE ÖĞRENME Sİ
-Doç. Dr . ELİF KAR TAL, Prof. Dr. MEHMET ERD AL
-BALAB AN,
+Züber Doğan
 
 
 # 1. Yapay Zekâ, Makine Öğrenmesi ve İlşkl Temel
