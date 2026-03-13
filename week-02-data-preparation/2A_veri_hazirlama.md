@@ -193,14 +193,10 @@ Bu işlem sonucunda:
 
 ### Bu bölümde ne yapacağız?
 - `city_mpg` sütununu **Düşük**, **Orta** ve **Yüksek** kategorilerine ayıracağız.
-- Üç farklı yöntemle ayrıklaştırma işlemi gerçekleştireceğiz:
-
-**1.** **`pd.cut()`** fonksiyonu ile **sabit aralık (fixed interval)** yöntemi uygulayacağız.
-**2.** **`pd.qcut()`** fonksiyonu ile **eşit frekans (quantile)** yöntemi kullanacağız.
-**3.** **`pd.cut()`** fonksiyonu ile **eşit genişlik (equal interval)** yöntemini uygulayacağız.
+- **`pd.cut()`** fonksiyonu ile **sabit aralık (fixed interval)** yöntemi uygulayacağız.
 
 ```python
-# 1.Yontem: Fixed (sabit) araliklarla bolme
+# pd.cut() ile sabit araliklarla bolme
 bolmeKategorileri = ["Dusuk", "Orta", "Yuksek"]                    # Olusturulacak kategori isimleri
 bolmeler = [12, 20.9, 29.9, 50]                                    # Sinir degerleri: 12-20.9=Dusuk, 20.9-29.9=Orta, 29.9-50=Yuksek
 veriSeti["durum"] = pd.cut(                                         # pd.cut(): Sayisal degerleri belirlenen araliklara gore keser ve etiketler
@@ -208,19 +204,7 @@ veriSeti["durum"] = pd.cut(                                         # pd.cut(): 
     bins=bolmeler,                                                  # bins: Bolme sinirlarini tanimlar
     labels=bolmeKategorileri                                        # labels: Her araliga verilecek isimler
 )
-print("Durum (fixed cut) dagilim:\n", veriSeti.durum.value_counts())
-print(f"\n{'-'*82}\n")
-
-# 2.Yontem: Equal Frequency (qcut)
-durum_ef = pd.qcut(veriSeti["city_mpg"], q=3)                      # pd.qcut(): Verileri esit sayida gozlem icerecek sekilde 3 gruba boler
-
-print("Durum (Esit frekans) dagilim:\n", durum_ef.value_counts())
-print(f"\n{'-'*82}\n")
-
-# 3.Yontem: Equal Interval (esit genislik)
-durum_ea = pd.cut(veriSeti["city_mpg"], bins=3)                     # pd.cut(bins=3): Deger araligini esit genislikte 3 parcaya boler
-print("Durum (Esit genislik) dagilim:\n", durum_ea.value_counts())
-print(f"\n{'-'*82}\n")
+print("Durum dagilimi:\n", veriSeti.durum.value_counts())           # value_counts(): Her kategoriden kac tane oldugunu sayar
 ```
 
 ---
