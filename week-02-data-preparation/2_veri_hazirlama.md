@@ -8,7 +8,7 @@
 >
 > **PROMPT:**
 >
-> *Bu dokümandaki ders notunu kullanarak üniversite düzeyinde profesyonel bir slayt sunusu oluştur.*
+> *Bu dokümandaki ders notunu kullanarak üniversite düzeyinde bir slayt sunusu oluştur. Aşağıdaki tüm kurallara MUTLAKA uy.*
 >
 > ---
 >
@@ -18,39 +18,55 @@
 >
 > ---
 >
-> **PEDAGOJİK YAKLAŞIM:**
+> **TASARIM VE ARKA PLAN KURALLARI (KRİTİK — MUTLAKA UY):**
 >
-> *1. **Basitten karmaşığa ilerleme:** Konuları ders notundaki sırayla, basitten karmaşığa doğru sun. Her bölümde önce "Bu nedir ve neden önemli?" sorusunu cevapla, sonra kavramı açıkla, en son Python kod örneğini göster.*
-> *2. **Sade ve anlaşılır dil:** Her teknik terimi ilk geçtiği yerde günlük dille açıkla. Örneğin: "NaN (Not a Number) = Eksik değer, yani tablodaki o hücre boş demektir." veya "DataFrame = Excel tablosu gibi düşünün, satır ve sütunlardan oluşan bir veri yapısı."*
-> *3. **Bölümler arası bağlam:** Yeni bir konuya geçerken önceki konuyla bağlantısını kur. Örneğin: "Az önce eksik verileri temizledik. Şimdi bu temiz veriyi anlamlı kategorilere ayırmayı öğreneceğiz." Bu geçiş cümleleri öğrencinin zihninde bilgi akışı oluştursun.*
-> *4. **Pedagojik doğrulama:** Sunumu oluşturduktan sonra her slaytı sıfırdan başlayan bir öğrenci gözüyle kontrol et. Anlaşılmayan, atlanan veya varsayım yapılan bir nokta varsa düzelt. Her slayt, önceki slaytlardaki bilgiyi bilen ama başka hiçbir şey bilmeyen bir öğrenci tarafından anlaşılabilmeli.*
+> *1. **DÜMDÜZ BEYAZ ARKA PLAN:** Tüm slaytlarda arka plan SADECE düz beyaz (#FFFFFF) olmalı. Gradyan, desen, doku, resim, illüstrasyon veya herhangi bir arka plan görseli KESINLIKLE KULLANMA. Hiçbir slaytın arka planında dekoratif öğe olmamalı.*
+> *2. **3D GÖRSEL YASAĞI:** Hiçbir slayta 3D illüstrasyon, 3D nesne, 3D ikon veya fotorealistik görsel KOYMA. Bu tür görseller akademik değildir.*
+> *3. **İLLÜSTRASYON VE SÜSLEME YASAĞI:** Huni, makine, fabrika, robot, karakter, metafor görseli veya benzer dekoratif illüstrasyonlar KULLANMA. Bunlar ders notuna uygun değildir.*
+> *4. **SADECE bu görsel türlerini kullan:**
+>   - Düz metin ve madde işaretleri (bullet points)
+>   - Basit düz tablolar (siyah kenarlıklı, beyaz arka planlı)
+>   - Basit 2D akış şemaları (düz kutucuklar + oklar, tek renk kenarlık)
+>   - Kod blokları (açık gri arka planlı, monospace yazı tipi)
+>   - Basit 2D kutu grafiği (boxplot) çizimleri (sadece çizgiler ve etiketler)*
+> *5. **MİNİMAL RENK PALETİ:** En fazla 3 renk kullan: siyah (metin), koyu mavi (başlıklar ve vurgular), açık gri (kod blokları arka planı). Başka renk KULLANMA. Parlak, canlı, neon renk kullanma.*
+> *6. **TEMİZ DÜZEN:** Her slaytda bol boşluk (white space) bırak. Slaytı bilgiyle doldurup sıkıştırma. Az metin, çok boşluk.*
 >
 > ---
 >
-> **GÖRSEL VE ŞEKİL KURALLARI (ÖNEMLİ):**
+> **PEDAGOJİK YAKLAŞIM:**
 >
-> *5. **Üniversite ders notu kalitesinde görseller:** Tüm şekiller, diyagramlar, tablolar ve grafikler üniversite ders kitabı/ders notu standartlarına uygun, profesyonel ve akademik görünümlü olmalı. Çocuksu, karikatürize veya aşırı süslü görseller KULLANMA.*
-> *6. **Ders notuna sadık görseller:** Görseller tamamen ders notundaki kavramları yansıtmalı. Ders notunda geçmeyen, uydurma veya ilgisiz görseller ekleme. Her görsel doğrudan ilgili bölümün içeriğine bağlı olmalı.*
-> *7. **Akademik diyagramlar:** Akış şemaları, kutu grafikleri (boxplot), tablolar ve karşılaştırma diyagramları kullan. Her diyagramda başlık, eksen etiketleri ve açıklama (legend) bulunmalı.*
-> *8. **Etiketli ve açıklamalı görseller:** Her görselde ok, etiket ve kısa açıklama kullanarak öğrencinin görseli tek başına anlayabilmesini sağla. Örneğin kutu grafiğinde Q1, Q3, medyan, alt/üst sınır ve aykırı değerler açıkça etiketlenmeli.*
-> *9. **Tablo kullanımı:** Kod çıktılarını, karşılaştırmaları ve özetleri tablo formatında göster. Tablolar düzenli, okunabilir ve ders notu kalitesinde olmalı.*
-> *10. **Renk ve tasarım:** Profesyonel, sade, yüksek kontrastlı renk paleti kullan. Arka plan temiz olmalı, metin okunaklı olmalı. Gereksiz dekoratif öğelerden kaçın.*
+> *7. **Basitten karmaşığa ilerleme:** Konuları ders notundaki sırayla sun. Her bölümde önce "Bu nedir ve neden önemli?" sorusunu cevapla, sonra kavramı açıkla, en son Python kod örneğini göster.*
+> *8. **Sade ve anlaşılır dil:** Her teknik terimi ilk geçtiği yerde günlük dille açıkla. Örneğin: "NaN (Not a Number) = Eksik değer, yani tablodaki o hücre boş demektir." veya "DataFrame = Excel tablosu gibi düşünün, satır ve sütunlardan oluşan bir veri yapısı."*
+> *9. **Bölümler arası bağlam:** Yeni konuya geçerken önceki konuyla bağlantı kur. Örneğin: "Az önce eksik verileri temizledik. Şimdi bu temiz veriyi kategorilere ayırmayı öğreneceğiz."*
+> *10. **Pedagojik doğrulama:** Her slaytı sıfırdan başlayan bir öğrenci gözüyle kontrol et. Anlaşılmayan veya varsayım yapılan nokta varsa düzelt.*
 >
 > ---
 >
 > **SLAYT YAPISI:**
 >
-> *11. **Her slaytın formatı:** Başlık → Kısa açıklama (en fazla 3 cümle) → Görsel, tablo veya kod örneği → Öğrenci için ipucu/özet kutusu ("Unutma!" veya "Önemli!" gibi).*
-> *12. **Kod blokları:** Python kodlarını slayta eklerken her satırı kısa açıklamalarla destekle. Öğrenci kodu Google Colab'a kopyalayıp doğrudan çalıştırabilmeli.*
-> *13. **Özet slaytları:** Her ana bölümün (2.1, 2.2, ... 2.10) sonunda 3-5 maddelik bir özet slaytı ekle. Bu slayt, bölümde öğrenilen temel kavramları maddeler halinde listelesin.*
-> *14. **Sunum süresi:** Yaklaşık 90 dakikalık bir ders için uygun uzunluk ve derinlikte olsun.*
+> *11. **Her slaytın formatı:** Başlık (koyu mavi, büyük punto) → Kısa açıklama (en fazla 3 cümle) → Tablo, kod bloğu veya madde listesi → Varsa kısa ipucu kutusu.*
+> *12. **Kod blokları:** Python kodlarını açık gri arka planlı kutucuklarda, monospace yazı tipiyle göster. Her satırı kısa yorum satırıyla açıkla.*
+> *13. **Özet slaytları:** Her ana bölümün sonunda 3-5 maddelik bir özet slaytı ekle.*
+> *14. **Sunum süresi:** Yaklaşık 90 dakikalık bir ders için uygun uzunlukta olsun.*
 >
 > ---
 >
 > **DİL VE TON:**
 >
 > *15. **Dil:** Türkçe. Teknik terimler İngilizce parantez içinde verilsin. Örneğin: "Eksik Veri Tamamlama (Missing Data Imputation)".*
-> *16. **Ton:** Samimi ama akademik. Öğrenciyi motive edici geçiş cümleleri kullan. Örneğin: "Tebrikler, eksik verileri başarıyla doldurdunuz! Şimdi bir sonraki adıma geçiyoruz."*
+> *16. **Ton:** Akademik ve net. Gereksiz süslü cümleler kullanma. Kısa, öz ve bilgilendirici ol.*
+>
+> ---
+>
+> **YASAKLAR ÖZETİ (BUNLARI YAPMA):**
+>
+> *- Renkli veya desenli arka plan KULLANMA*
+> *- 3D görsel, illüstrasyon, huni, makine, fabrika metaforu KULLANMA*
+> *- Parlak, neon veya canlı renkler KULLANMA*
+> *- Slaytı bilgiyle sıkıştırma, bol boşluk bırak*
+> *- Ders notunda OLMAYAN bilgi veya görsel ekleme*
+> *- Çocuksu, karikatürize veya dekoratif tasarım öğesi KULLANMA*
 >
 > ---
 
