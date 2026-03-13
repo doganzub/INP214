@@ -70,7 +70,7 @@
 >
 > ---
 
-Bu derste, Python kullanarak veri ön işleme tekniklerini uygulamalı olarak öğreneceğiz. Özellikle otomobil yakıt tüketimi veri seti (auto-mpg.data) üzerinden eksik veri yönetimi, ayrıklaştırma, gruplandırma, tekrarlayan satır tespiti, aykırı değer analizi, örnekleme, kodlama ve normalizasyon adımlarını inceleyeceğiz.
+Bu derste, Python kullanarak veri ön işleme tekniklerini uygulamalı olarak öğreneceğiz. Özellikle otomobil veri seti (automobile.csv) üzerinden eksik veri yönetimi, ayrıklaştırma, gruplandırma, tekrarlayan satır tespiti, aykırı değer analizi, örnekleme, kodlama ve normalizasyon adımlarını inceleyeceğiz.
 
 ---
 
@@ -193,38 +193,14 @@ Bu işlem sonucunda:
 
 ### Bu bölümde ne yapacağız?
 - `city_mpg` sütununu **Düşük**, **Orta** ve **Yüksek** kategorilerine ayıracağız.
-- Dört farklı yöntemle ayrıklaştırma işlemi gerçekleştireceğiz:
+- Üç farklı yöntemle ayrıklaştırma işlemi gerçekleştireceğiz:
 
-I. Yöntem:
-
- **1.** **`lambda` + `map()`** fonksiyonu ile manuel koşullu sınıflandırma yapacağız.
-
-II. Yöntem:
-
-**2.1.** **`pd.cut()`** fonksiyonu ile **sabit aralık (fixed interval)** yöntemi uygulayacağız.
-**2.2.** **`pd.qcut()`** fonksiyonu ile **eşit frekans (quantile)** yöntemi kullanacağız.
-**2.3.** **`pd.cut()`** fonksiyonu ile **eşit genişlik (equal interval)** yöntemini uygulayacağız.
+**1.** **`pd.cut()`** fonksiyonu ile **sabit aralık (fixed interval)** yöntemi uygulayacağız.
+**2.** **`pd.qcut()`** fonksiyonu ile **eşit frekans (quantile)** yöntemi kullanacağız.
+**3.** **`pd.cut()`** fonksiyonu ile **eşit genişlik (equal interval)** yöntemini uygulayacağız.
 
 ```python
-# ------------------------------------------------------------
-# I. Yontem: lambda + map
-# ------------------------------------------------------------
-# lambda ifadesi, 'city_mpg' degerine gore kosullu atama yapar:
-# - x < 21 ise "Dusuk"
-# - 21 <= x < 30 ise "Orta"
-# - x >= 30 ise "Yuksek" olarak etiketler.
-veriSeti["durum"] = veriSeti.city_mpg.map(                          # map(): Her satira tek tek bir fonksiyon uygular
-    lambda x: "Dusuk" if x < 21 else ("Orta" if (x >= 21 and x < 30) else "Yuksek")  # lambda: Isimsiz kisa fonksiyon tanimlar
-).astype("category")                                                # astype("category"): Sutunu kategorik (sinifli) veri tipine cevirir
-
-print("Durum (lambda) dagilim:\n", veriSeti.durum.value_counts())   # value_counts(): Her kategoriden kac tane oldugunu sayar
-print(f"\n{'-'*82}\n")
-
-#----------------------------------------------------------------------------------
-# II. Yontem:
-#----------------------------------------------------------------------------------
-
-# II.1: Yontem: Fixed (sabit) araliklarla bolme
+# 1.Yontem: Fixed (sabit) araliklarla bolme
 bolmeKategorileri = ["Dusuk", "Orta", "Yuksek"]                    # Olusturulacak kategori isimleri
 bolmeler = [12, 20.9, 29.9, 50]                                    # Sinir degerleri: 12-20.9=Dusuk, 20.9-29.9=Orta, 29.9-50=Yuksek
 veriSeti["durum"] = pd.cut(                                         # pd.cut(): Sayisal degerleri belirlenen araliklara gore keser ve etiketler
@@ -235,13 +211,13 @@ veriSeti["durum"] = pd.cut(                                         # pd.cut(): 
 print("Durum (fixed cut) dagilim:\n", veriSeti.durum.value_counts())
 print(f"\n{'-'*82}\n")
 
-# II.2: Yontem: Equal Frequency (qcut)
+# 2.Yontem: Equal Frequency (qcut)
 durum_ef = pd.qcut(veriSeti["city_mpg"], q=3)                      # pd.qcut(): Verileri esit sayida gozlem icerecek sekilde 3 gruba boler
 
 print("Durum (Esit frekans) dagilim:\n", durum_ef.value_counts())
 print(f"\n{'-'*82}\n")
 
-# II.3: Yontem: Equal Interval (esit genislik)
+# 3.Yontem: Equal Interval (esit genislik)
 durum_ea = pd.cut(veriSeti["city_mpg"], bins=3)                     # pd.cut(bins=3): Deger araligini esit genislikte 3 parcaya boler
 print("Durum (Esit genislik) dagilim:\n", durum_ea.value_counts())
 print(f"\n{'-'*82}\n")
@@ -299,6 +275,26 @@ df_ozet.reset_index(inplace=True)                                   # reset_inde
 # 3. Adim: Jupyter defteri kullaniliyorsa tablo seklinde gorsellestirir
 display(df_ozet)                                                    # display(): Tabloyu guzel formatli sekilde ekranda gosterir (sadece Jupyter/Colab'da calisir)
 ```
+
+### `durum` Değişkenine Göre `city_mpg` (Şehir İçi Yakıt Verimliliği) İstatistikleri
+
+Aşağıdaki tablo, `city_mpg` (şehir içi mil per galon) sayısal değişkeninin, `durum` adlı kategorik değişkene göre gruplanarak (aggregation) temel istatistiklerle özetlenmesini göstermektedir.
+
+---
+
+#### Yorum:
+
+1. **Yüksek** `durum` kategorisi:
+   - En yüksek **ortalama** `city_mpg` değeriyle en verimli gruptur.
+   - Bu grupta yüksek yakıt verimliliği olan araçlar bulunur.
+
+2. **Orta** kategori:
+   - Orta düzeyde yakıt verimliliği gösteren araçları içerir.
+   - Değerler belirli bir aralıkta yoğunlaşmıştır.
+
+3. **Düşük** kategori:
+   - Ortalama değer en düşük olan gruptur.
+   - Gruptaki araçlar arasında önemli çeşitlilik olabilir.
 
 ---
 
@@ -589,7 +585,7 @@ display(veriSeti.head(5))                                           # Tablonun i
 ### 2.10.2. Min-Max Normalizasyonu (0-1 Arasına Sıkıştırma)
 
 #### Neden Önemli?
-Veri setindeki sayısal sütunlar farklı aralıklarda olabilir (örneğin: **mpg 10–40** arasında, **horsepower 50–200** arasında olabilir).
+Veri setindeki sayısal sütunlar farklı aralıklarda olabilir (örneğin: **city_mpg 13–49** arasında, **horsepower 48–288** arasında olabilir).
 Bu fark, özellikle uzaklık/matris temelli modellerde (KNN, K-Means, Lojistik Regresyon vb.) bazı değişkenlerin modele daha fazla etki etmesine yol açar.
 
 Bu nedenle, tüm değişkenlerin aynı ölçeğe getirilmesi gerekir.
