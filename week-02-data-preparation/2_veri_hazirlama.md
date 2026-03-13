@@ -1,5 +1,32 @@
 # **2. Veri Hazırlama (Data Preparation)**
 
+> ## Google LM Studio — Slayt Sunusu Oluşturma Promptu
+>
+> **Bu dokümanı Google LM Studio'ya vererek "Slayt Sunusu" formatında bir ders materyali oluşturabilirsiniz.**
+>
+> Aşağıdaki promptu Google LM Studio'da "Slayt Sunusu" aracına yapıştırın:
+>
+> ---
+>
+> **PROMPT:**
+>
+> *Bu doküman, üniversite düzeyinde "Veri Hazırlama (Data Preparation)" konusunu anlatan bir ders notu içermektedir. Bu içerikten pedagojik açıdan etkili bir slayt sunusu oluştur. Hedef kitle, programlama ve veri bilimi konusunda sıfırdan başlayan üniversite öğrencileridir.*
+>
+> *Slayt sunusunu oluştururken şu kurallara uy:*
+>
+> *1. **Pedagojik sıralama:** Konular basitten karmaşığa doğru ilerlemeli. Her bölüm önce "Neden önemli?" sorusunu cevaplasın, ardından kavram açıklaması, sonra da Python kod örneği gelsin.*
+> *2. **Sade dil:** Teknik terimleri ilk kullanımda mutlaka günlük dilde açıkla. Öğrenci hiçbir ön bilgiye sahip değilmiş gibi yaz. Örneğin: "NaN (Not a Number) = Eksik değer, yani tabloda o hücre boş demektir."*
+> *3. **Görsel destekli:** Her kavram için mümkünse bir tablo, diyagram veya kod çıktısı ekle. Kutu grafiği (boxplot) gibi görsellerin ne anlattığını ok ve etiketlerle açıkla.*
+> *4. **Her slaytın yapısı:** Başlık → Kısa açıklama (maks 3 cümle) → Örnek veya Görsel → Öğrenci için ipucu/özet kutusu.*
+> *5. **Bölüm geçişlerinde bağlam:** Yeni bir konuya geçerken önceki konuyla bağlantısını kur. Örneğin: "Eksik verileri temizledik. Şimdi bu temiz veriyi kategorilere ayırmayı öğreneceğiz."*
+> *6. **Kod blokları:** Her Python kod bloğunu satır satır açıkla. Öğrenci kodu kopyalayıp Colab'da çalıştırabilmeli.*
+> *7. **Özet slaytları:** Her ana bölümün sonunda 3-5 maddelik bir özet slaytı ekle.*
+> *8. **Dil:** Türkçe. Teknik terimler İngilizce parantez içinde verilsin. Örneğin: "Eksik Veri Tamamlama (Missing Data Imputation)".*
+> *9. **Ton:** Samimi ama akademik. Öğrenciyi motive edici. "Tebrikler, eksik verileri başarıyla doldurdunuz!" gibi geçiş cümleleri kullan.*
+> *10. **Sunum süresi:** Yaklaşık 90 dakikalık bir ders için uygun uzunlukta olsun.*
+>
+> ---
+
 Bu derste, Python kullanarak veri ön işleme tekniklerini uygulamalı olarak öğreneceğiz. Özellikle otomobil yakıt tüketimi veri seti (auto-mpg.data) üzerinden eksik veri yönetimi, ayrıklaştırma, gruplandırma, tekrarlayan satır tespiti, aykırı değer analizi, örnekleme, kodlama ve normalizasyon adımlarını inceleyeceğiz.
 
 ---
@@ -545,62 +572,7 @@ plt.show()
 
 ## **2.9 Örnekleme (Sampling ve Stratified Sampling)**
 
-### 2.9.1. Rastgele Örnekleme (Random Sampling)
-Bir veri kümesinden rastgele olarak veri noktaları seçmeyi ifade eder. Her bir veri noktasının seçilme şansı eşittir.
-- **1'den 20'**ye kadar olan sayılar arasında rastgele **5** sayı seçmek istiyorsanız, bu sayılar her seferinde farklı olabilir.
-- Örneğin: **[15, 6, 9, 14, 5]** ve başka bir seçimde farklı sayılar olabilir: **[16, 1, 17, 14, 10]**.
-
-```python
-# 1'den 20'ye kadar sayılar
-listem = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
-# diğer yol:  # listem = list(np.arange(1, 21))
-
-# Rastgele 5 sayı seçimi
-# sample() fonksiyonu ile her çağrıda farklı rastgele elemanlar seçilir ve tekrar eden sayı bulunmaz.
-print("Örnek Seçim 1:", sample(listem, 5))
-print("Örnek Seçim 2:", sample(listem, 5))
-```
-
----
-
-### 2.9.2. Sabit Tohumlu Rastgele Örnekleme (Seeded Sampling)
-Rastgele örnekleme, her çalıştırıldığında farklı sonuçlar üretir. Ancak bazen belirli bir sonucu tekrarlamak isteriz. Bunun için bir "tohum" (seed) değeri kullanılır. Aynı tohum değeriyle rastgele seçim yapılırsa, her seferinde aynı seçimler elde edilir.
-
-```python
-# Aynı seed ile benzer sonuçlar
-random.seed(123)                                          # Algoritma için başlangıç noktasını 123 olarak belirler.
-print("Örnek Seçim 3 (seed=123):", sample(listem, 5))
-random.seed(123)
-print("Örnek Seçim 4 (seed=123):", sample(listem, 5))
-
-random.seed(5)                                            # 5 yazarsanız başlangıç noktası değişir.
-print("Örnek Seçim 5 (seed=5):", sample(listem, 5))
-random.seed(5)
-print("Örnek Seçim 6 (seed=5):", sample(listem, 5))
-```
-
-**Çıktı:**
-```
-Örnek Seçim 3 (seed=123): [2, 9, 3, 14, 19]
-Örnek Seçim 4 (seed=123): [2, 9, 3, 14, 19]
-Örnek Seçim 5 (seed=5): [20, 9, 12, 17, 1]
-Örnek Seçim 6 (seed=5): [20, 9, 12, 17, 1]
-```
-
----
-
-### 2.9.3. Yerine Koyarak Seçim (Sampling with Replacement)
-Veri kümesindeki bir öğe birden fazla kez seçilebilir ve her seçimde aynı öğe tekrar kullanılabilir.
-- Bir kutuda 10 top olduğunu düşünün. Bu kutudan 3 top seçiyorsunuz, ancak her seferinde topu kutuya geri koyuyorsunuz. Bu durumda aynı topu tekrar seçebilirsiniz.
-
-```python
-# Yerine koyarak seçim
-print("Yerine koyarak seçim:", random.choices(listem, k=10))
-```
-
----
-
-### 2.9.4. Eğitim ve Test Veri Seti Oluşturma
+### 2.9.1. Eğitim ve Test Veri Seti Oluşturma
 Eğitim ve test veri seti oluşturma, model eğitimi ve doğrulama işlemleri için veriyi ayırma işlemidir.
  - Genellikle verinin **%70'i eğitim seti**, **%30'u ise test seti** olarak ayrılır.
  - Eğitim seti, makine öğrenmesi modelinin eğitilmesi için kullanılırken, test seti modelin doğruluğunu ve başarısını değerlendirmek için kullanılır.
@@ -630,7 +602,7 @@ Test Seti Boyutu: (119, 10)
 
 ---
 
-### 2.9.5. Tabakalı Örnekleme (Stratified Sampling)
+### 2.9.2. Tabakalı Örnekleme (Stratified Sampling)
 Tabakalı örnekleme, verinin belirli gruplara (tabakalara) ayrılarak her gruptan orantılı bir şekilde örnekleme yapılmasıdır. Özellikle dengesiz veri setlerinde, her sınıfın doğru bir şekilde temsil edilmesini sağlar.
 
 - Tüm veri setindeki sınıf oranı → eğitim ve test setine eşit şekilde dağılır.
