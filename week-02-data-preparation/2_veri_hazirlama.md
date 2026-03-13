@@ -2,28 +2,55 @@
 
 > ## Google LM Studio — Slayt Sunusu Oluşturma Promptu
 >
-> **Bu dokümanı Google LM Studio'ya vererek "Slayt Sunusu" formatında bir ders materyali oluşturabilirsiniz.**
->
-> Aşağıdaki promptu Google LM Studio'da "Slayt Sunusu" aracına yapıştırın:
+> **Bu dokümanı Google LM Studio'ya kaynak olarak yükleyin, ardından "Slayt Sunusu" aracını seçip aşağıdaki promptu yapıştırın.**
 >
 > ---
 >
 > **PROMPT:**
 >
-> *Bu doküman, üniversite düzeyinde "Veri Hazırlama (Data Preparation)" konusunu anlatan bir ders notu içermektedir. Bu içerikten pedagojik açıdan etkili bir slayt sunusu oluştur. Hedef kitle, programlama ve veri bilimi konusunda sıfırdan başlayan üniversite öğrencileridir.*
+> *Bu dokümandaki ders notunu kullanarak üniversite düzeyinde profesyonel bir slayt sunusu oluştur.*
 >
-> *Slayt sunusunu oluştururken şu kurallara uy:*
+> ---
 >
-> *1. **Pedagojik sıralama:** Konular basitten karmaşığa doğru ilerlemeli. Her bölüm önce "Neden önemli?" sorusunu cevaplasın, ardından kavram açıklaması, sonra da Python kod örneği gelsin.*
-> *2. **Sade dil:** Teknik terimleri ilk kullanımda mutlaka günlük dilde açıkla. Öğrenci hiçbir ön bilgiye sahip değilmiş gibi yaz. Örneğin: "NaN (Not a Number) = Eksik değer, yani tabloda o hücre boş demektir."*
-> *3. **Görsel destekli:** Her kavram için mümkünse bir tablo, diyagram veya kod çıktısı ekle. Kutu grafiği (boxplot) gibi görsellerin ne anlattığını ok ve etiketlerle açıkla.*
-> *4. **Her slaytın yapısı:** Başlık → Kısa açıklama (maks 3 cümle) → Örnek veya Görsel → Öğrenci için ipucu/özet kutusu.*
-> *5. **Bölüm geçişlerinde bağlam:** Yeni bir konuya geçerken önceki konuyla bağlantısını kur. Örneğin: "Eksik verileri temizledik. Şimdi bu temiz veriyi kategorilere ayırmayı öğreneceğiz."*
-> *6. **Kod blokları:** Her Python kod bloğunu satır satır açıkla. Öğrenci kodu kopyalayıp Colab'da çalıştırabilmeli.*
-> *7. **Özet slaytları:** Her ana bölümün sonunda 3-5 maddelik bir özet slaytı ekle.*
-> *8. **Dil:** Türkçe. Teknik terimler İngilizce parantez içinde verilsin. Örneğin: "Eksik Veri Tamamlama (Missing Data Imputation)".*
-> *9. **Ton:** Samimi ama akademik. Öğrenciyi motive edici. "Tebrikler, eksik verileri başarıyla doldurdunuz!" gibi geçiş cümleleri kullan.*
-> *10. **Sunum süresi:** Yaklaşık 90 dakikalık bir ders için uygun uzunlukta olsun.*
+> **HEDEF KİTLE:**
+>
+> *Programlama, Python ve veri bilimi konusunda HİÇBİR ön bilgisi olmayan, konuya SIFIRDAN başlayan üniversite öğrencileri. Öğrencinin "DataFrame nedir?", "NaN ne demek?", "import ne işe yarar?" gibi en temel soruları bile bilmediğini varsay. Her kavramı ilk kez duyan birine anlatır gibi yaz.*
+>
+> ---
+>
+> **PEDAGOJİK YAKLAŞIM:**
+>
+> *1. **Basitten karmaşığa ilerleme:** Konuları ders notundaki sırayla, basitten karmaşığa doğru sun. Her bölümde önce "Bu nedir ve neden önemli?" sorusunu cevapla, sonra kavramı açıkla, en son Python kod örneğini göster.*
+> *2. **Sade ve anlaşılır dil:** Her teknik terimi ilk geçtiği yerde günlük dille açıkla. Örneğin: "NaN (Not a Number) = Eksik değer, yani tablodaki o hücre boş demektir." veya "DataFrame = Excel tablosu gibi düşünün, satır ve sütunlardan oluşan bir veri yapısı."*
+> *3. **Bölümler arası bağlam:** Yeni bir konuya geçerken önceki konuyla bağlantısını kur. Örneğin: "Az önce eksik verileri temizledik. Şimdi bu temiz veriyi anlamlı kategorilere ayırmayı öğreneceğiz." Bu geçiş cümleleri öğrencinin zihninde bilgi akışı oluştursun.*
+> *4. **Pedagojik doğrulama:** Sunumu oluşturduktan sonra her slaytı sıfırdan başlayan bir öğrenci gözüyle kontrol et. Anlaşılmayan, atlanan veya varsayım yapılan bir nokta varsa düzelt. Her slayt, önceki slaytlardaki bilgiyi bilen ama başka hiçbir şey bilmeyen bir öğrenci tarafından anlaşılabilmeli.*
+>
+> ---
+>
+> **GÖRSEL VE ŞEKİL KURALLARI (ÖNEMLİ):**
+>
+> *5. **Üniversite ders notu kalitesinde görseller:** Tüm şekiller, diyagramlar, tablolar ve grafikler üniversite ders kitabı/ders notu standartlarına uygun, profesyonel ve akademik görünümlü olmalı. Çocuksu, karikatürize veya aşırı süslü görseller KULLANMA.*
+> *6. **Ders notuna sadık görseller:** Görseller tamamen ders notundaki kavramları yansıtmalı. Ders notunda geçmeyen, uydurma veya ilgisiz görseller ekleme. Her görsel doğrudan ilgili bölümün içeriğine bağlı olmalı.*
+> *7. **Akademik diyagramlar:** Akış şemaları, kutu grafikleri (boxplot), tablolar ve karşılaştırma diyagramları kullan. Her diyagramda başlık, eksen etiketleri ve açıklama (legend) bulunmalı.*
+> *8. **Etiketli ve açıklamalı görseller:** Her görselde ok, etiket ve kısa açıklama kullanarak öğrencinin görseli tek başına anlayabilmesini sağla. Örneğin kutu grafiğinde Q1, Q3, medyan, alt/üst sınır ve aykırı değerler açıkça etiketlenmeli.*
+> *9. **Tablo kullanımı:** Kod çıktılarını, karşılaştırmaları ve özetleri tablo formatında göster. Tablolar düzenli, okunabilir ve ders notu kalitesinde olmalı.*
+> *10. **Renk ve tasarım:** Profesyonel, sade, yüksek kontrastlı renk paleti kullan. Arka plan temiz olmalı, metin okunaklı olmalı. Gereksiz dekoratif öğelerden kaçın.*
+>
+> ---
+>
+> **SLAYT YAPISI:**
+>
+> *11. **Her slaytın formatı:** Başlık → Kısa açıklama (en fazla 3 cümle) → Görsel, tablo veya kod örneği → Öğrenci için ipucu/özet kutusu ("Unutma!" veya "Önemli!" gibi).*
+> *12. **Kod blokları:** Python kodlarını slayta eklerken her satırı kısa açıklamalarla destekle. Öğrenci kodu Google Colab'a kopyalayıp doğrudan çalıştırabilmeli.*
+> *13. **Özet slaytları:** Her ana bölümün (2.1, 2.2, ... 2.10) sonunda 3-5 maddelik bir özet slaytı ekle. Bu slayt, bölümde öğrenilen temel kavramları maddeler halinde listelesin.*
+> *14. **Sunum süresi:** Yaklaşık 90 dakikalık bir ders için uygun uzunluk ve derinlikte olsun.*
+>
+> ---
+>
+> **DİL VE TON:**
+>
+> *15. **Dil:** Türkçe. Teknik terimler İngilizce parantez içinde verilsin. Örneğin: "Eksik Veri Tamamlama (Missing Data Imputation)".*
+> *16. **Ton:** Samimi ama akademik. Öğrenciyi motive edici geçiş cümleleri kullan. Örneğin: "Tebrikler, eksik verileri başarıyla doldurdunuz! Şimdi bir sonraki adıma geçiyoruz."*
 >
 > ---
 
@@ -46,8 +73,6 @@ import pandas as pd                # Veri çerçeveleri ile çalışma
 import seaborn as sns              # Veri görselleştirme
 import matplotlib.pyplot as plt
 from matplotlib.cbook import boxplot_stats  # Kutu grafiği istatistikleri
-import random                      # Rastgele işlemler
-from random import sample          # Belirli bir listeden rastgele seçim
 from sklearn.model_selection import train_test_split  # Eğitim/Test veri bölme
 from sklearn.preprocessing import MinMaxScaler, StandardScaler  # Normalizasyon & standardizasyon
 
